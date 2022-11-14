@@ -1,0 +1,9 @@
+GET https://www.googleapis.com/calendar/v3/users/me/calendarList
+Accept: application/json
+Authorization: Bearer {{token}}
+###
+
+GET https://www.googleapis.com/calendar/v3/calendars/{{calendarId}}/events?timeMin=2022-06-01T00:00:00Z
+Accept: application/json
+Authorization: Bearer {{token}}
+###

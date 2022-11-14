@@ -1,0 +1,5 @@
+- [Google OAuth Playground](https://developers.google.com/oauthplayground)
+- [Google OAuth Flow](https://developers.google.com/identity/protocols/oauth2/web-server)
+- [Google Calendar API](https://developers.google.com/calendar/api/v3/reference/)
+  - [List Calendars](https://developers.google.com/calendar/api/v3/reference/calendarList/list)
+  - [List Events](https://developers.google.com/calendar/api/v3/reference/events/list)
