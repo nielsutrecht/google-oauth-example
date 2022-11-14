@@ -8,16 +8,20 @@ import java.util.Properties;
 
 public class WebServer {
     private final HttpServer server;
-    private final Properties properties = new Properties();
+    private final Properties properties;
     private final RouteHandler handler;
 
-    public WebServer(int port) throws IOException {
-        this.properties.load(WebServer.class.getResourceAsStream("/secrets.properties"));
+    public WebServer(Properties properties) throws IOException {
+        this.properties = properties;
 
-        this.handler = new RouteHandler(properties);
+        var port = Integer.parseInt(properties.getProperty("port"));
+
+        handler = new RouteHandler(properties);
         server = HttpServer.create(new InetSocketAddress(port), 0);
         server.createContext("/", handler::handleIndex);
         server.createContext("/oauth", handler::handleOauth);
+
+        System.out.printf("Started service on http://localhost:%s%n", port);
     }
 
     public void start() {
@@ -25,6 +29,9 @@ public class WebServer {
     }
 
     public static void main(String[] args) throws Exception {
-        new WebServer(8000).start();
+        var properties = new Properties();
+        properties.load(WebServer.class.getResourceAsStream("/app.properties"));
+
+        new WebServer(properties).start();
     }
 }

@@ -26,7 +26,7 @@ public class RouteHandler {
 
     private Token currentToken;
 
-    public RouteHandler(Properties properties) throws IOException {
+    public RouteHandler(Properties properties) {
         this.templateEngine = createTemplateEngine();
         this.properties = properties;
         this.oauthClient = new OauthClient(properties);

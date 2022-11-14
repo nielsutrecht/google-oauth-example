@@ -1,0 +1,4 @@
+port=8000
+client-id=<CLIENT ID>
+client-secret=<CLIENT SECRET>
+primary-calendar=<id of your primary calendar>

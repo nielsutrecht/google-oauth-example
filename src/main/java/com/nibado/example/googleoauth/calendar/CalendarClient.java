@@ -25,28 +25,29 @@ public class CalendarClient {
     }
 
     public List<Calendar> listCalendars(Token token) throws IOException {
-        var request = new Request.Builder()
-            .url(BASE_URL + "/users/me/calendarList")
-            .header("Authorization", "Bearer " + token.accessToken())
-            .build();
+        var request = buildRequest("/users/me/calendarList", token);
 
-        try (var response = client.newCall(request).execute()) {
-            return mapper.readValue(response.body().bytes(), CalendarList.class).items();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw e;
-        }
+        return doCall(request, CalendarList.class).items();
     }
 
     public List<Event> listEvents(Token token, String calendarId) throws IOException {
         var timeMin = "2022-10-01T00:00:00Z";
-        var request = new Request.Builder()
-            .url(BASE_URL + "/calendars/" + calendarId + "/events?timeMin=" + timeMin)
+
+        var request = buildRequest("/calendars/" + calendarId + "/events?timeMin=" + timeMin, token);
+
+        return doCall(request, EventList.class).items();
+    }
+
+    private Request buildRequest(String path, Token token) {
+        return new Request.Builder()
+            .url(BASE_URL + path)
             .header("Authorization", "Bearer " + token.accessToken())
             .build();
+    }
 
+    private <T> T doCall(Request request, Class<T> clazz) throws IOException {
         try (var response = client.newCall(request).execute()) {
-            return mapper.readValue(response.body().bytes(), EventList.class).items();
+            return mapper.readValue(response.body().bytes(), clazz);
         } catch (IOException e) {
             e.printStackTrace();
             throw e;

@@ -46,12 +46,7 @@ public class OauthClient {
             .add("redirect_uri", "http://localhost:8000/oauth")
             .build();
 
-        var request = new Request.Builder()
-            .url(TOKEN_URL)
-            .post(body)
-            .build();
-
-        return tokenRequest(request);
+        return doTokenRequest(body);
     }
 
     public Token refresh(Token token) throws IOException {
@@ -62,15 +57,15 @@ public class OauthClient {
             .add("grant_type", "refresh_token")
             .build();
 
+        return doTokenRequest(body);
+    }
+
+    private Token doTokenRequest(FormBody body) throws IOException {
         var request = new Request.Builder()
             .url(TOKEN_URL)
             .post(body)
             .build();
 
-        return tokenRequest(request);
-    }
-
-    private Token tokenRequest(Request request) throws IOException {
         try (var response = client.newCall(request).execute()) {
             var token = mapper.readValue(response.body().bytes(), TokenResponse.class);
 

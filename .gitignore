@@ -1,4 +1,4 @@
-secrets.properties
+app.properties
 *.private.env.json
 target/
 .idea/
